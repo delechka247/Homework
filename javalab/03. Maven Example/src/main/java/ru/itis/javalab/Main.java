@@ -1,6 +1,6 @@
 package ru.itis.javalab;
 
-//import ru.itis.words.utils.Info;
+import ru.itis.javalab.words.Info;
 import com.beust.jcommander.JCommander;
 
 import java.io.File;

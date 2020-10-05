@@ -25,6 +25,11 @@
       <artifactId>jcommander</artifactId>
       <version>1.78</version>
     </dependency>
+    <dependency>
+      <groupId>ru.itis.javalab</groupId>
+      <artifactId>maven-lib-example</artifactId>
+      <version>0.1</version>
+    </dependency>
   </dependencies>
 
   <build>
