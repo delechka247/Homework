@@ -3,6 +3,8 @@ package ru.itis.javalab.models;
 
 import lombok.*;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 @ToString
@@ -15,4 +17,5 @@ public class User {
     private String firstName;
     private String lastName;
     private Integer age;
+    private UUID uuid;
 }

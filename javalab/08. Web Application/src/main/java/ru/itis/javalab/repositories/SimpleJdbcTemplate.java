@@ -1,7 +1,5 @@
 package ru.itis.javalab.repositories;
 
-import ru.itis.javalab.models.User;
-
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -28,7 +26,7 @@ public class SimpleJdbcTemplate {
 
 
             if (args.length > 0)
-                statement.setInt(1, (Integer) args[0]);
+                statement.setObject(1, args[0]);
 
             resultSet = statement.executeQuery();
 

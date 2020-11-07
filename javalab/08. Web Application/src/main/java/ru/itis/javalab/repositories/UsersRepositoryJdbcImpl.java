@@ -3,10 +3,9 @@ package ru.itis.javalab.repositories;
 import ru.itis.javalab.models.User;
 
 import javax.sql.DataSource;
-import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 public class UsersRepositoryJdbcImpl implements UsersRepository {
 
@@ -15,6 +14,9 @@ public class UsersRepositoryJdbcImpl implements UsersRepository {
 
     //language=SQL
     private static final String SQL_FIND_ALL_BY_AGE = "select * from student where age = ?";
+
+    //language=SQL
+    private static final String SQL_FIND_ONE_BY_UUID = "select * from student where uuid = ?";
 
     private DataSource dataSource;
     private SimpleJdbcTemplate template;
@@ -30,6 +32,7 @@ public class UsersRepositoryJdbcImpl implements UsersRepository {
             .firstName(row.getString("first_name"))
             .lastName(row.getString("last_name"))
             .age(row.getInt("age"))
+            .uuid((UUID) row.getObject("uuid"))
             .build();
 
     @Override
@@ -58,6 +61,10 @@ public class UsersRepositoryJdbcImpl implements UsersRepository {
 
     }
 
+    @Override
+    public List<User> findOneByUUID(UUID uuid) {
+        return template.query(SQL_FIND_ONE_BY_UUID, usersRowMapper, uuid);
+    }
 
     @Override
     public List<User> findAllByAge(int age) {
