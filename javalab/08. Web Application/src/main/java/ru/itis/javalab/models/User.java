@@ -18,4 +18,6 @@ public class User {
     private String lastName;
     private Integer age;
     private UUID uuid;
+    private String email;
+    private String hashPassword;
 }

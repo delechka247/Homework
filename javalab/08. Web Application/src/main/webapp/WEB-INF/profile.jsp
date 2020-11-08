@@ -12,6 +12,9 @@
 </head>
 <body>
 <p><b>Имя: </b> ${user.getFirstName()} </p>
-<p><b>Куки: </b> ${cookie.get("authCookie").value} </p>
+<!--
+<p><b>Куки: </b> {cookie.get("authCookie").value} </p>
+-->
+<p><b>Куки: </b> ${user.getUuid()} </p>
 </body>
 </html>

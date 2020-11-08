@@ -6,6 +6,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import ru.itis.javalab.repositories.UsersRepository;
 import ru.itis.javalab.repositories.UsersRepositoryJdbcImpl;
+import ru.itis.javalab.services.LoginService;
+import ru.itis.javalab.services.LoginServiceImpl;
 import ru.itis.javalab.services.UsersService;
 import ru.itis.javalab.services.UsersServiceImpl;
 
@@ -40,11 +42,14 @@ public class AppConfigServletContextListener implements ServletContextListener {
         UsersRepository usersRepository = new UsersRepositoryJdbcImpl(dataSource);
         UsersService usersService = new UsersServiceImpl(usersRepository);
 
+
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         servletContext.setAttribute("passwordEncoder", passwordEncoder);
+        LoginService loginService = new LoginServiceImpl(usersRepository, passwordEncoder);
 
         servletContext.setAttribute("dataSource", dataSource);
         servletContext.setAttribute("usersService", usersService);
+        servletContext.setAttribute("loginService", loginService);
     }
 
     @Override

@@ -2,6 +2,7 @@ package ru.itis.javalab.servlets;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import ru.itis.javalab.models.User;
+import ru.itis.javalab.services.LoginService;
 import ru.itis.javalab.services.UsersService;
 
 import javax.servlet.ServletConfig;
@@ -10,6 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.UUID;
 
@@ -17,6 +19,7 @@ import java.util.UUID;
 public class LoginServlet extends HttpServlet {
     private PasswordEncoder passwordEncoder;
     private UsersService usersService;
+    private LoginService loginService;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -24,6 +27,7 @@ public class LoginServlet extends HttpServlet {
         ServletContext servletContext = config.getServletContext();
         this.usersService = (UsersService) servletContext.getAttribute("usersService");
         this.passwordEncoder = (PasswordEncoder) servletContext.getAttribute("passwordEncoder");
+        this.loginService = (LoginService) servletContext.getAttribute("loginService");
     }
 
     @Override
@@ -37,6 +41,8 @@ public class LoginServlet extends HttpServlet {
         String email = req.getParameter("email");
         String password = req.getParameter("password");
 
+        //cookie
+        /*
         if (email.equals("gmail@gmail.com") && password.equals("qwerty12")){
             //UUID uuid = UUID.randomUUID();
             //System.out.println(uuid);
@@ -45,6 +51,27 @@ public class LoginServlet extends HttpServlet {
             String path = "/profile";
             resp.sendRedirect(req.getContextPath() + path);
         }
+         */
+
+
+        String loginStatus = loginService.login(email, password);
+        if (loginStatus.equals("ok")){
+            HttpSession httpSession = req.getSession(true);
+            httpSession.setAttribute("auth", loginService.getUUIDForSession(email).toString());
+
+            String path = "/profile";
+            resp.sendRedirect(req.getContextPath() + path);
+        } else {
+            PrintWriter printWriter = resp.getWriter();
+            printWriter.println("Login failed! Please try again");
+            printWriter.println(loginStatus);
+            printWriter.close();
+        }
+
+
+
+        //System.out.println(passwordEncoder.encode("qwerty12"));
+
 
     }
 }

@@ -28,9 +28,10 @@ public class AuthFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
+        //cookie
+        /*
         Cookie[] cookies = request.getCookies();
         UUID authCookieValue = null;
-
 
         if (cookies != null) {
             for (Cookie cookie : cookies) {
@@ -38,7 +39,6 @@ public class AuthFilter implements Filter {
                     authCookieValue = UUID.fromString(cookie.getValue());
                 }
             }
-
         }
 
         if (authCookieValue != null && usersService.getOneByUUID(authCookieValue).size() > 0
@@ -47,7 +47,22 @@ public class AuthFilter implements Filter {
         } else {
             response.sendRedirect("/login");
         }
+         */
 
+        HttpSession session = request.getSession(false);
+        Boolean sessionExists = session != null;
+        UUID uuid = null;
+
+        if (sessionExists) {
+            uuid = UUID.fromString(session.getAttribute("auth").toString());
+        }
+
+        if (uuid != null && usersService.getOneByUUID(uuid).size() > 0
+                    || request.getRequestURI().equals("/login")) {
+            filterChain.doFilter(request, response);
+        } else {
+            response.sendRedirect(request.getContextPath() + "/login");
+        }
 
     }
 
