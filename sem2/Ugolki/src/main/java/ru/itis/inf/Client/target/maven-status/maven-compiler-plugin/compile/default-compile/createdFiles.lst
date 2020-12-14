@@ -1,0 +1,10 @@
+ru\itis\inf\game\OneChecker.class
+ru\itis\inf\SocketClient.class
+ru\itis\inf\game\Board.class
+ru\itis\inf\game\MoveStatus.class
+ru\itis\inf\game\ConsoleGameService.class
+ru\itis\inf\game\BotForConsoleGame.class
+ru\itis\inf\game\Color.class
+ru\itis\inf\game\CheckersMover.class
+ru\itis\inf\game\MainForConsoleGame.class
+ru\itis\inf\MainForClient.class
