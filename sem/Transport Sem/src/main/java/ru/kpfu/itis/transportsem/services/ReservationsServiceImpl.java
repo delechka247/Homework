@@ -7,6 +7,7 @@ import ru.kpfu.itis.transportsem.models.Reservation;
 import ru.kpfu.itis.transportsem.repositories.ReservationsRepository;
 import ru.kpfu.itis.transportsem.repositories.TripsRepository;
 import ru.kpfu.itis.transportsem.repositories.UsersRepository;
+import ru.kpfu.itis.transportsem.security.jwt.utils.JwtDecoder;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,6 +22,9 @@ public class ReservationsServiceImpl implements ReservationsService {
     private UsersRepository usersRepository;
 
     @Autowired
+    private JwtDecoder jwtDecoder;
+
+    @Autowired
     private TripsRepository tripsRepository;
 
     @Override
@@ -29,12 +33,16 @@ public class ReservationsServiceImpl implements ReservationsService {
     }
 
     @Override
-    public ReservationDto addReservation(ReservationDto reservationDto) {
+    public List<ReservationDto> getUsersReservations(String token) {
+        return null;
+    }
+
+    @Override
+    public ReservationDto addReservation(List<Long> tripIdList, String token) {
         Reservation newReservation = Reservation.builder()
-                .id(reservationDto.getId())
-                .user(usersRepository.findById(reservationDto.getUserId()).orElseThrow(IllegalArgumentException::new))
-                .trips(reservationDto.getTrips().stream()
-                        .map(tripDto -> tripsRepository.findById(tripDto.getId()).orElseThrow(IllegalArgumentException::new))
+                .user(jwtDecoder.getUserFromJwt(token))
+                .trips(tripIdList.stream()
+                        .map(tripId -> tripsRepository.findById(tripId).orElseThrow(IllegalArgumentException::new))
                         .collect(Collectors.toList())
                 )
                 .build();

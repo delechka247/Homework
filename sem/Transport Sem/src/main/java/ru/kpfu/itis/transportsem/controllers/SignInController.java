@@ -22,6 +22,7 @@ public class SignInController {
     private SignInService signInService;
 
     @PostMapping("/signIn")
+    @ApiOperation(value = "Вход")
     public JwtDto login(@RequestBody EmailPasswordDto emailPassword) {
         return signInService.signIn(emailPassword);
     }

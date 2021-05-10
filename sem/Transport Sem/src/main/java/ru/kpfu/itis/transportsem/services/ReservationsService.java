@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface ReservationsService {
     List<ReservationDto> getAllReservations();
-    ReservationDto addReservation(ReservationDto reservationDto);
+    List<ReservationDto> getUsersReservations(String token);
+    ReservationDto addReservation(List<Long> tripIdList, String token);
 }
