@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.kpfu.itis.transportsem.dto.ReservationDto;
 import ru.kpfu.itis.transportsem.models.Reservation;
+import ru.kpfu.itis.transportsem.models.Trip;
 import ru.kpfu.itis.transportsem.repositories.ReservationsRepository;
 import ru.kpfu.itis.transportsem.repositories.TripsRepository;
 import ru.kpfu.itis.transportsem.repositories.UsersRepository;
@@ -27,6 +28,7 @@ public class ReservationsServiceImpl implements ReservationsService {
     @Autowired
     private TripsRepository tripsRepository;
 
+
     @Override
     public List<ReservationDto> getAllReservations() {
         return ReservationDto.from(reservationsRepository.findAll());
@@ -34,7 +36,7 @@ public class ReservationsServiceImpl implements ReservationsService {
 
     @Override
     public List<ReservationDto> getUsersReservations(String token) {
-        return null;
+        return ReservationDto.from(reservationsRepository.findAllByUser(jwtDecoder.getUserFromJwt(token)).orElseThrow(IllegalArgumentException::new));
     }
 
     @Override
@@ -42,11 +44,24 @@ public class ReservationsServiceImpl implements ReservationsService {
         Reservation newReservation = Reservation.builder()
                 .user(jwtDecoder.getUserFromJwt(token))
                 .trips(tripIdList.stream()
+                        .filter(tripId -> tripsRepository.findById(tripId).orElseThrow(IllegalArgumentException::new).getNumber() >= tripIdList.stream().filter(x -> x.equals(tripId)).count())
                         .map(tripId -> tripsRepository.findById(tripId).orElseThrow(IllegalArgumentException::new))
                         .collect(Collectors.toList())
                 )
                 .build();
-        reservationsRepository.save(newReservation);
+        if (newReservation.getTrips().size() <= 0)
+            throw new IllegalArgumentException("Столько билетов нет в наличии");
+        else {
+            reservationsRepository.save(newReservation);
+            newReservation.getTrips().stream().forEach(trip -> {
+                Trip tripForUpdate = tripsRepository.findById(trip.getId())
+                        .orElseThrow(IllegalArgumentException::new);
+                tripForUpdate.setNumber(tripForUpdate.getNumber() - 1);
+                tripsRepository.save(tripForUpdate);
+            } );
+        }
+
+
         return ReservationDto.from(newReservation);
     }
 }

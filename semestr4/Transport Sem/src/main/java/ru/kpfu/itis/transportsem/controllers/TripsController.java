@@ -10,6 +10,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.kpfu.itis.transportsem.dto.ReservationDto;
 import ru.kpfu.itis.transportsem.dto.TripDto;
+import ru.kpfu.itis.transportsem.dto.TripSearchForm;
 import ru.kpfu.itis.transportsem.models.Trip;
 import ru.kpfu.itis.transportsem.services.ReservationsService;
 import ru.kpfu.itis.transportsem.services.TripsService;
@@ -55,6 +56,14 @@ public class TripsController {
     @PostMapping("/trips")
     public TripDto addTrip(@RequestHeader("TOKEN") String token, @RequestBody TripDto tripDto) {
         return tripsService.addTrip(tripDto);
+    }
+
+    @ApiOperation(value = "Поиск поездки")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Найдено", response = TripDto.class)})
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/trips/search")
+    public List<TripDto> findTrip(@RequestHeader("TOKEN") String token, @RequestBody TripSearchForm tripSearchForm) {
+        return tripsService.getTripsByParameters(tripSearchForm);
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")

@@ -24,7 +24,7 @@ public class ReservationsController {
     @PreAuthorize("hasAuthority('ADMIN')")
     @ApiOperation(value = "Получение всех броней")
     @GetMapping("/reservation")
-    public List<ReservationDto> getReservations() {
+    public List<ReservationDto> getReservations(@RequestHeader("TOKEN") String token) {
         return reservationsService.getAllReservations();
     }
 
