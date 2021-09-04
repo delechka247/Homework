@@ -1,0 +1,19 @@
+POST http://localhost:8087/signIn
+Content-Type: application/json
+
+{
+  "email": "delechka247@gmail.com",
+  "password": "Qwerty12"
+}
+###
+
+GET http://localhost:8087/profile
+Content-Type: application/json
+
+###
+GET http://localhost:8087/logout
+TOKEN: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4IiwibGFzdCBuYW1lIjoi0JrRg9C60YPRiNC60LjQvdCwIiwicm9sZSI6IkFETUlOIiwiZmlyc3QgbmFtZSI6ItCQ0LTQtdC70Y8iLCJzdGF0ZSI6IkFDVElWRSIsImVtYWlsIjoiZGVsZWNoa2EyNDdAZ21haWwuY29tIn0.Hujw5UWbbXoZ-8Hx0c_ejzrINSdqa_j8-2-svVGGQiY
+
+###
+POST http://localhost:8087/refresh
+REFRESH-TOKEN: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4IiwiZXhwaXJhdGlvbiBkYXRlIjoxNjMyMjIwODQ4fQ.-QSqVi-PuD6eRkEiiQa-qS7hjNbTRT8Hjrw7ErmKouo

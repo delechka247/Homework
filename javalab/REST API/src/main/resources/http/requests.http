@@ -1,0 +1,49 @@
+GET http://localhost/donuts
+
+###
+POST http://localhost/donuts
+Content-Type: application/json
+
+{
+  "name" : "Банановый пончик",
+  "description" : "Ещё один вкусный пончик",
+  "flavor" : "BANANA",
+  "price" : 60,
+  "number" : 2
+}
+
+###
+
+POST http://localhost/donuts
+Content-Type: application/json
+
+{
+  "name" : "Шоколадный пончик",
+  "description" : "Вкусный пончик",
+  "flavor" : "CHOCOLATE",
+  "price" : 75,
+  "number" : 3
+}
+
+###
+DELETE http://localhost/donuts/4
+
+###
+GET http://localhost/orders
+X-TOKEN: f4c2ec70-5cfe-41fa-b440-7ec76808abf0
+
+###
+POST http://localhost/orders
+Content-Type: application/json
+
+{
+    "userId": 1,
+    "donuts": [
+      {
+        "id": 5
+      },
+      {
+        "id": 5
+      }
+    ]
+}
