@@ -1,0 +1,32 @@
+GET http://localhost:8080/statements
+TOKEN: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzIiwibGFzdCBuYW1lIjoi0J_QtdGC0YDQvtCyIiwicm9sZSI6IlVTRVIiLCJmaXJzdCBuYW1lIjoi0JjQstCw0L0iLCJleHBpcmF0aW9uIGRhdGUiOjE2NDMxMDU5MzcsInN0YXRlIjoiQUNUSVZFIiwiZW1haWwiOiJwZXRyb3dAbWFpbC5ydSJ9.emlnPiU_4yGPzUaJWBC4_F6AMeMvIegfJyJTF3DbGRg
+
+###
+POST http://localhost:8080/signIn
+Content-Type: application/json
+
+{
+  "email" : "petrow@mail.ru",
+  "password" : "qwerty12"
+}
+
+
+###
+POST http://localhost:8080/signUp
+Content-Type: application/json
+
+{
+  "firstName" : "Иван",
+  "lastName" : "Петров",
+  "email" : "petrow@mail.ru",
+  "password" : "qwerty12"
+}
+
+
+
+###
+DELETE http://localhost/donuts/4
+
+###
+GET http://localhost/orders
+X-TOKEN: f4c2ec70-5cfe-41fa-b440-7ec76808abf0
